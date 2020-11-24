@@ -129,11 +129,12 @@ function previewAndUploadImage(image) {
   imgText.appendChild(textImage);
 
   //copy the
-  //   $("#fake-input-1").prop("files", $("#fake_input").prop("files"));
-  //   $("#fake-input-1").prop("files", $("#images").prop("files"));
-  
+
   console.log("input", $("#images").prop("files"));
-  console.log("fake:input", $("#fake-input-1").prop("files"));
+
+  $("#input-fake-1").prop("files", $("#images").prop("files"));
+
+  console.log("fake:input", $("#input-fake-1").prop("files"));
 
   //create the remove button
   let removeButton = document.createElement("button");
