@@ -1,60 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-   
-</head>
-<style>
-    #drop-region {
-	background-color: #fff;
-	border-radius:20px;
-	box-shadow:0 0 35px rgba(0,0,0,0.05);
-	width:400px;
-	padding:60px 40px;
-	text-align: center;
-	cursor:pointer;
-	transition:.3s;
-}
-#drop-region:hover {
-	box-shadow:0 0 45px rgba(0,0,0,0.1);
-}
-
-#image-preview {
-	margin-top:20px;
-}
-#image-preview .image-view {
-    display: inline-block;
-	position:relative;
-	margin-right: 13px;
-	margin-bottom: 13px;
-}
-#image-preview .image-view img {
-    max-width: 100px;
-    max-height: 100px;
-}
-#image-preview .overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    background: rgba(255,255,255,0.5);
-}
-</style>
-<body>
-    <img src="/Recortado.jpg" width="50px" />
-
-    <div id="drop-region" style="padding: 2rem;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Drag and Drop</title>
+  </head>
+  <body>
+    <div class="drag-drop">
+      <span>Fotos principales</span>
+      <input type="file" id="images" multiple style="display: none" />
+      <div id="drop-region">
         <div class="drop-message">
-            Drag & Drop images or click to upload
+          <span class="format">PNG, JPG - 10MB</span>
+          <span class="steps"><b>Arrastrar y soltar archivos aquí o</b></span>
+          <div class="choose-file">
+            <span>Escoger archivo</span>
+          </div>
         </div>
+      </div>
+      <div class="images-container">
+        <span>Archivos subidos</span>
+        <div id="image-preview"></div>
+      </div>
     </div>
-    <div id="image-preview"></div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/index.js"></script>
-    
-</body>
+  </body>
 </html>
