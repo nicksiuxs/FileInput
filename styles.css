@@ -1,5 +1,6 @@
 .drag-drop {
   font-size: 1rem;
+  font-family: HelveticaNeue;
 }
 
 #drop-region {
@@ -59,7 +60,7 @@
   flex-direction: column;
 }
 
-#image-preview .image-view img {
+#image-preview .image-view .foto-producto {
   width: 32px;
   height: 32px;
 }
@@ -78,14 +79,19 @@
   align-items: center;
 }
 
-
-.image-text-container img {
+.image-text-container .foto-producto {
   margin-right: 0.625rem;
 }
 
 .xButton {
-  width: 1rem;
-  height: 1rem;
   border: none;
-  background: black;
+  background: none;
+  /* width: 1rem;
+  height: 1rem; */
+}
+
+.xButton .icon {
+  width: 16px;
+  height: 16px;
+  border: none;
 }

@@ -1,24 +1,27 @@
 /* Create one Fake input file */
-var fakeInput = document.createElement("input");
+let fakeInput = document.createElement("input");
+fakeInput.setAttribute("id", "fake_input");
 fakeInput.type = "file";
 fakeInput.accept = "image/*";
 fakeInput.multiple = true;
 // var formData = new FormData();
 var formData = new Map();
+let previous_files;
 
-var dropRegion = document.getElementById("drop-region");
+let dropRegion = document.getElementById("drop-region");
 
-var imagePreviewRegion = document.getElementById("image-preview");
+let imagePreviewRegion = document.getElementById("image-preview");
 
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
   e.preventDefault();
+  previous_files = $("#images").prop("files");
   fakeInput.click();
 });
 
 /* Detect onclick */
 fakeInput.addEventListener("change", function () {
-  var files = fakeInput.files;
+  let files = fakeInput.files;
   console.log("fakeInput.addEventListener -> files", files);
   handleFiles(files);
 });
@@ -39,7 +42,7 @@ dropRegion.addEventListener("drop", preventDefault, false);
  * @return {Void}
  */
 function handleDrop(e) {
-  var dt = e.dataTransfer,
+  let dt = e.dataTransfer,
     files = dt.files;
 
   if (files.length) {
@@ -79,7 +82,7 @@ function handleFiles(files) {
  */
 function validateImage(image) {
   // check the type
-  var validTypes = ["image/jpeg", "image/png", "image/gif"];
+  let validTypes = ["image/jpeg", "image/png", "image/gif"];
   if (validTypes.indexOf(image.type) === -1) {
     alert(
       "El archivo no es un tipo válido, recuerde que los tipos válidos son JPG o PNG "
@@ -88,7 +91,7 @@ function validateImage(image) {
   }
 
   // check the size
-  var maxSizeInBytes = 10e6; // 10MB
+  let maxSizeInBytes = 10e6; // 10MB
   if (image.size > maxSizeInBytes) {
     alert("File too large");
     return false;
@@ -104,53 +107,59 @@ function validateImage(image) {
  */
 function previewAndUploadImage(image) {
   // container
-  var imgView = document.createElement("div");
+  let imgView = document.createElement("div");
   imgView.className = "image-view";
   imagePreviewRegion.appendChild(imgView);
 
   //image and text container
-  var imgText = document.createElement("div");
+  let imgText = document.createElement("div");
   imgText.className = "image-text-container";
   imgView.appendChild(imgText);
 
   // previewing image
-  var img = document.createElement("img");
+  let img = document.createElement("img");
+  img.className = "foto-producto";
   imgText.appendChild(img);
 
   // text preview image
-  var textImage = document.createElement("span");
-  var text = document.createTextNode(image.name);
+  let textImage = document.createElement("span");
+  let text = document.createTextNode(image.name);
   textImage.appendChild(text);
   imgText.appendChild(textImage);
 
+  //the fakes input
+  let fakeInput1 = document.createElement("input");
+  fakeInput1.setAttribute("id", "fake-input-1");
+  fakeInput1.style = "display:none;";
+  imgView.appendChild(fakeInput1);
+
   //create the remove button
-  var removeButton = document.createElement("button");
+  let removeButton = document.createElement("button");
   removeButton.className = "xButton";
   imgView.appendChild(removeButton);
   removeButton.onclick = () => {
     imagePreviewRegion.removeChild(imgView);
     formData.delete(image.name);
   };
-
-  //Add the svg to button
-  var icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  //svg
+  let svg = document.createElement("img");
+  svg.className="icon"
+  svg.src ="close.svg";
+  removeButton.appendChild(svg);
 
   // read the image...
-  var reader = new FileReader();
+  let reader = new FileReader();
   reader.onload = function (e) {
     img.src = e.target.result;
   };
   reader.readAsDataURL(image);
 
-  // create FormData
-  //   var formData = new FormData();
   formData.set(image.name, image);
 
   console.log(formData);
 
-  document.getElementById("images").name = formData.get(image.name);
-  console.log(document.getElementById("images").name);
-  //Se da el valor al input
-  //   document.getElementById("images").name = formData.getAll("image");
-  //   console.log(formData);
+  $("#images").prop("files", $("#fake_input").prop("files"));
+
+  let list = $("#images").prop("files");
+  console.log("list", list);
 }
