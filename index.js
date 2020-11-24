@@ -1,9 +1,10 @@
 /* Create one Fake input file */
-let fakeInput = document.createElement("input");
-fakeInput.setAttribute("id", "fake_input");
+let fakeInput = document.getElementById("images");
+// fakeInput.setAttribute("id", "fake_input");
 fakeInput.type = "file";
 fakeInput.accept = "image/*";
 fakeInput.multiple = true;
+
 // var formData = new FormData();
 var formData = new Map();
 let previous_files;
@@ -15,7 +16,7 @@ let imagePreviewRegion = document.getElementById("image-preview");
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
   e.preventDefault();
-  previous_files = $("#images").prop("files");
+  //   previous_files = $("#images").prop("files");
   fakeInput.click();
 });
 
@@ -127,24 +128,28 @@ function previewAndUploadImage(image) {
   textImage.appendChild(text);
   imgText.appendChild(textImage);
 
-  //the fakes input
-  let fakeInput1 = document.createElement("input");
-  fakeInput1.setAttribute("id", "fake-input-1");
-  fakeInput1.style = "display:none;";
-  imgView.appendChild(fakeInput1);
+  //copy the
+  //   $("#fake-input-1").prop("files", $("#fake_input").prop("files"));
+  //   $("#fake-input-1").prop("files", $("#images").prop("files"));
+  
+  console.log("input", $("#images").prop("files"));
+  console.log("fake:input", $("#fake-input-1").prop("files"));
 
   //create the remove button
   let removeButton = document.createElement("button");
   removeButton.className = "xButton";
   imgView.appendChild(removeButton);
+
+  //Delete the image
   removeButton.onclick = () => {
     imagePreviewRegion.removeChild(imgView);
     formData.delete(image.name);
   };
+
   //svg
   let svg = document.createElement("img");
-  svg.className="icon"
-  svg.src ="close.svg";
+  svg.className = "icon";
+  svg.src = "close.svg";
   removeButton.appendChild(svg);
 
   // read the image...
@@ -157,9 +162,4 @@ function previewAndUploadImage(image) {
   formData.set(image.name, image);
 
   console.log(formData);
-
-  $("#images").prop("files", $("#fake_input").prop("files"));
-
-  let list = $("#images").prop("files");
-  console.log("list", list);
 }

@@ -1,6 +1,7 @@
 .drag-drop {
   font-size: 1rem;
   font-family: HelveticaNeue;
+  src: url(/HelveticaNeue.ttf);
 }
 
 #drop-region {
@@ -86,8 +87,9 @@
 .xButton {
   border: none;
   background: none;
-  /* width: 1rem;
-  height: 1rem; */
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
 }
 
 .xButton .icon {
