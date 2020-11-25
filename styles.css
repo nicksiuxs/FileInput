@@ -1,4 +1,4 @@
-@font-face{
+@font-face {
   font-family: HelveticaNeue;
   src: local("HelveticaNeue.ttf");
 }
@@ -6,7 +6,16 @@
 .drag-drop {
   font-size: 1rem;
   font-family: HelveticaNeue;
-  
+}
+.title-drag {
+  display: flex;
+  align-items: center;
+}
+
+.title-drag img{
+  width: 0.9375rem;
+  height: 0.9375rem;
+  margin-left: 0.625rem;
 }
 
 #drop-region {
@@ -77,6 +86,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.25rem;
+  border-bottom: solid 1px #e8e8e8;
   /* border: 1px solid; */
 }
 

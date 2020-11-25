@@ -5,7 +5,6 @@ fakeInput.accept = "image/*";
 fakeInput.multiple = true;
 
 var formData = new Map();
-let previous_files;
 
 let dropRegion = document.getElementById("drop-region");
 
@@ -18,14 +17,12 @@ let indexInput = 0;
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
   e.preventDefault();
-  //   previous_files = $("#images").prop("files");
   fakeInput.click();
 });
 
 /* Detect onclick */
 fakeInput.addEventListener("change", function () {
   let files = fakeInput.files;
-  // console.log("fakeInput.addEventListener -> files", files);
   handleFiles(files);
 });
 
@@ -45,25 +42,30 @@ dropRegion.addEventListener("drop", preventDefault, false);
  * @return {Void}
  */
 function handleDrop(e) {
+  // console.log(fakeInput);
   let dt = e.dataTransfer,
     files = dt.files;
 
-  console.log(files.length);
+  //gives values to the input images
+  $("#images").prop("files", files);
+  // console.log("input falso:", $("#images").prop("files"));
+
   if (files.length) {
     handleFiles(files);
-  } else {
-    // check for img
-    var html = dt.getData("text/html"),
-      match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
-      url = match && match[1];
-    console.log("handleDrop -> url", url);
-    console.log("handleDrop -> match", match);
-    console.log("handleDrop -> html", html);
-    if (url) {
-      // uploadImageFromURL( url );
-      return;
-    }
   }
+  // else {
+  //   // check for img
+  //   var html = dt.getData("text/html"),
+  //     match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
+  //     url = match && match[1];
+  //   console.log("handleDrop -> url", url);
+  //   console.log("handleDrop -> match", match);
+  //   console.log("handleDrop -> html", html);
+  //   if (url) {
+  //     // uploadImageFromURL( url );
+  //     return;
+  //   }
+  // }
 }
 
 dropRegion.addEventListener("drop", handleDrop, false);
@@ -169,11 +171,29 @@ function previewAndUploadImage(image) {
   // formData.set(image.name, indexImage);
 
   //Add the images
-  duplicateValueInput(element.id, "images");
+  console.log("Id antes: ", element.id);
+  // if (document.getElementsByClassName("image-preview") <= 3) {
+  // console.log(
+  //   "numero elementos",
+  //   document.getElementsByClassName("image-view").length
+  // );
 
-  indexInput++;
+  if (document.getElementsByClassName("image-view").length <= 3) {
+    duplicateValueInput(element.id, "images");
+    console.log("FINALLL", $("#" + fakeInput.id).prop("files"));
 
-  clearInput("images");
+    indexInput++;
+
+    clearInput("images");
+    console.log(document.getElementsByClassName("image-view").length);
+  } else if (document.getElementsByClassName("image-view").length > 3) {
+    imagePreviewRegion.removeChild(imgView);
+    alert("No se pueden cargar más de 3 imágenes");
+  }
+
+  // if (document.getElementsByClassName("image-preview") > 3) {
+  //   alert("No se pueden ingresar mas de 3 fotos");
+  // // }
 
   console.log("------------------------------------------------\n");
 }
@@ -185,6 +205,7 @@ function previewAndUploadImage(image) {
  * @return {Void}
  */
 function duplicateValueInput(idDuplicateInput, idInput) {
+  console.log("input id", $("#" + idInput).prop("files"));
   $("#" + idDuplicateInput).prop("files", $("#" + idInput).prop("files"));
   console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
 }
