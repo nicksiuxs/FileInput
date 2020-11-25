@@ -131,6 +131,8 @@ function previewAndUploadImage(image) {
   //Delete the image
   removeButton.onclick = () => {
     imagePreviewRegion.removeChild(imgView);
+    indexInput--;
+    reewriteId();
   };
 
   //svg
@@ -156,6 +158,10 @@ function previewAndUploadImage(image) {
     duplicateValueInput(element.id, "images");
     console.log("FINALLL", $("#" + fakeInput.id).prop("files"));
 
+    let idInput = document.getElementsByClassName("image-view").length;
+    console.log("tamaño", idInput);
+    reewriteId();
+    // $("#fake-input-" + indexInput).attr("id", "fake-input-" + idInput);
     indexInput++;
 
     clearInput("images");
@@ -189,4 +195,19 @@ function clearInput(idToClear) {
   let inputTmp = document.getElementById("input-empty");
   console.log("antes de borrado", $("#" + idToClear).prop("files"));
   duplicateValueInput(idToClear, inputTmp.id);
+}
+
+function reewriteId() {
+  console.log("Entreee");
+  let count = 1;
+  $("#image-preview")
+    .children()
+    .each(function () {
+      $(this)
+        .children()
+        .first()
+        .attr("id", "fake-input-" + count);
+      count++;
+      // console.log($(this));
+    });
 }
