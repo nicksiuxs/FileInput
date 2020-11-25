@@ -153,19 +153,8 @@ function previewAndUploadImage(image) {
   svg.src = "close.svg";
   removeButton.appendChild(svg);
 
-  console.log(indexInput);
-  // console.log(document.getElementById("#" + newInput.id));
   let element = document.getElementById("fake-input-" + indexInput);
-  console.log(document.getElementById("fake-input-" + indexInput));
-  // console.log("#" + newInput.id);
-
-  //agregar
-  console.log("antes", $("#images").prop("files"));
-  console.log(element.id);
-  $("#" + element.id).prop("files", $("#images").prop("files"));
-  console.log("despues", $("#" + element.id).prop("files"));
-
-  indexInput++;
+  console.log(element);
 
   // read the image...
   let reader = new FileReader();
@@ -176,6 +165,10 @@ function previewAndUploadImage(image) {
 
   // formData.set(indexImage, image);
   formData.set(image.name, indexImage);
+
+  //agregar
+  duplicateValueInput(element.id, "images");
+
   console.log("------------------------------------------------\n");
 }
 
