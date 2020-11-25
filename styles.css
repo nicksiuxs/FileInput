@@ -1,7 +1,12 @@
+@font-face{
+  font-family: HelveticaNeue;
+  src: local("HelveticaNeue.ttf");
+}
+
 .drag-drop {
   font-size: 1rem;
   font-family: HelveticaNeue;
-  src: url(/HelveticaNeue.ttf);
+  
 }
 
 #drop-region {

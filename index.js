@@ -1,11 +1,9 @@
 /* Create one Fake input file */
 let fakeInput = document.getElementById("images");
-// fakeInput.setAttribute("id", "fake_input");
 fakeInput.type = "file";
 fakeInput.accept = "image/*";
 fakeInput.multiple = true;
 
-// var formData = new FormData();
 var formData = new Map();
 let previous_files;
 
@@ -66,7 +64,7 @@ function handleDrop(e) {
 dropRegion.addEventListener("drop", handleDrop, false);
 
 /**
- * Shows the images in a area
+ * Shows the images in a area and upload
  * @param {File} files : image in a format
  * @return {Void}
  */
@@ -79,7 +77,7 @@ function handleFiles(files) {
 /**
  * Validates the format of a Image
  * @param {File} image : image to validate
- * @return {Boolean} : if the image isa validate
+ * @return {Boolean} : if the image is validate
  */
 function validateImage(image) {
   // check the type
@@ -128,14 +126,6 @@ function previewAndUploadImage(image) {
   textImage.appendChild(text);
   imgText.appendChild(textImage);
 
-  //copy the
-
-  console.log("input", $("#images").prop("files"));
-
-  $("#input-fake-1").prop("files", $("#images").prop("files"));
-
-  console.log("fake:input", $("#input-fake-1").prop("files"));
-
   //create the remove button
   let removeButton = document.createElement("button");
   removeButton.className = "xButton";
@@ -152,6 +142,11 @@ function previewAndUploadImage(image) {
   svg.className = "icon";
   svg.src = "close.svg";
   removeButton.appendChild(svg);
+  //copy the
+
+  duplicateValueInput("input-fake-1", "images");
+
+  clearInput("input-fake-1");
 
   // read the image...
   let reader = new FileReader();
@@ -163,4 +158,26 @@ function previewAndUploadImage(image) {
   formData.set(image.name, image);
 
   console.log(formData);
+}
+
+/**
+ * Allows duplicate the value of a input file in other
+ * @param {String} idDuplicateInput : id of the new input
+ * @param {String} idInput : id of the input to duplicate
+ * @return {Void}
+ */
+function duplicateValueInput(idDuplicateInput, idInput) {
+  $("#" + idDuplicateInput).prop("files", $("#" + idInput).prop("files"));
+  console.log("Lo duplique");
+}
+
+/**
+ * Allows to clear the value of a input
+ * @param {String} idToClear : id of the input file to clear
+ * @return {Void}
+ */
+function clearInput(idToClear) {
+  let inputTmp = document.getElementById("input-empty");
+  console.log(inputTmp.id);
+  duplicateValueInput(idToClear, inputTmp.id);
 }
