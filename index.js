@@ -122,6 +122,7 @@ function previewAndUploadImage(image) {
   newInput.className = "fake-input";
   newInput.id = "fake-input-" + indexInput;
   newInput.type = "file";
+  newInput.multiple = true;
   newInput.style = "display:none;";
   imgView.appendChild(newInput);
 
