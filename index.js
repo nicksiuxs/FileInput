@@ -11,6 +11,8 @@ let dropRegion = document.getElementById("drop-region");
 
 let imagePreviewRegion = document.getElementById("image-preview");
 
+let indexImage = 0;
+
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
   e.preventDefault();
@@ -21,7 +23,7 @@ $("#drop-region").click(function (e) {
 /* Detect onclick */
 fakeInput.addEventListener("change", function () {
   let files = fakeInput.files;
-  console.log("fakeInput.addEventListener -> files", files);
+  // console.log("fakeInput.addEventListener -> files", files);
   handleFiles(files);
 });
 
@@ -129,12 +131,14 @@ function previewAndUploadImage(image) {
   //create the remove button
   let removeButton = document.createElement("button");
   removeButton.className = "xButton";
+  removeButton.setAttribute("id", indexImage + 1);
   imgView.appendChild(removeButton);
 
   //Delete the image
   removeButton.onclick = () => {
+    console.log(imgView);
     imagePreviewRegion.removeChild(imgView);
-    formData.delete(image.name);
+    let indexToDelete = formData.get(image.name);
   };
 
   //svg
@@ -142,11 +146,23 @@ function previewAndUploadImage(image) {
   svg.className = "icon";
   svg.src = "close.svg";
   removeButton.appendChild(svg);
-  //copy the
 
-  duplicateValueInput("input-fake-1", "images");
-
-  clearInput("input-fake-1");
+  if (indexImage === 0) {
+    console.log("antes 1", $("#input-fake-1").prop("files"));
+    $("#input-fake-1").prop("files", $("#images").prop("files"));
+    indexImage++;
+    console.log("creado 1", $("#input-fake-1").prop("files"));
+  } else if (indexImage === 1) {
+    console.log("antes 2", $("#input-fake-2").prop("files"));
+    $("#input-fake-2").prop("files", $("#images").prop("files"));
+    indexImage++;
+    console.log("creado 2", $("#input-fake-2").prop("files"));
+  } else if (indexImage === 2) {
+    console.log("antes 3", $("#input-fake-").prop("files"));
+    $("#input-fake-3").prop("files", $("#images").prop("files"));
+    indexImage++;
+    console.log("creado 3", $("#input-fake-3").prop("files"));
+  }
 
   // read the image...
   let reader = new FileReader();
@@ -155,9 +171,11 @@ function previewAndUploadImage(image) {
   };
   reader.readAsDataURL(image);
 
-  formData.set(image.name, image);
-
+  // formData.set(indexImage, image);
+  formData.set(image.name, indexImage);
   console.log(formData);
+  // console.log(formData);
+  console.log("------------------------------------------------\n");
 }
 
 /**
@@ -168,7 +186,7 @@ function previewAndUploadImage(image) {
  */
 function duplicateValueInput(idDuplicateInput, idInput) {
   $("#" + idDuplicateInput).prop("files", $("#" + idInput).prop("files"));
-  console.log("Lo duplique");
+  console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
 }
 
 /**
@@ -178,6 +196,6 @@ function duplicateValueInput(idDuplicateInput, idInput) {
  */
 function clearInput(idToClear) {
   let inputTmp = document.getElementById("input-empty");
-  console.log(inputTmp.id);
+  console.log("antes de borrado", $("#input-fake-1").prop("files"));
   duplicateValueInput(idToClear, inputTmp.id);
 }
