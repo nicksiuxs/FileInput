@@ -48,6 +48,7 @@ function handleDrop(e) {
   let dt = e.dataTransfer,
     files = dt.files;
 
+  console.log(files.length);
   if (files.length) {
     handleFiles(files);
   } else {
@@ -118,6 +119,7 @@ function previewAndUploadImage(image) {
   let newInput = document.createElement("input");
   newInput.className = "fake-input";
   newInput.id = "fake-input-" + indexInput;
+  newInput.type = "file";
   newInput.style = "display:none;";
   imgView.appendChild(newInput);
 
@@ -164,10 +166,14 @@ function previewAndUploadImage(image) {
   reader.readAsDataURL(image);
 
   // formData.set(indexImage, image);
-  formData.set(image.name, indexImage);
+  // formData.set(image.name, indexImage);
 
-  //agregar
+  //Add the images
   duplicateValueInput(element.id, "images");
+
+  indexInput++;
+
+  clearInput("images");
 
   console.log("------------------------------------------------\n");
 }
@@ -183,13 +189,13 @@ function duplicateValueInput(idDuplicateInput, idInput) {
   console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
 }
 
-// /**
-//  * Allows to clear the value of a input
-//  * @param {String} idToClear : id of the input file to clear
-//  * @return {Void}
-//  */
-// function clearInput(idToClear) {
-//   let inputTmp = document.getElementById("input-empty");
-//   console.log("antes de borrado", $("#input-fake-1").prop("files"));
-//   duplicateValueInput(idToClear, inputTmp.id);
-// }
+/**
+ * Allows to clear the value of a input
+ * @param {String} idToClear : id of the input file to clear
+ * @return {Void}
+ */
+function clearInput(idToClear) {
+  let inputTmp = document.getElementById("input-empty");
+  console.log("antes de borrado", $("#" + idToClear).prop("files"));
+  duplicateValueInput(idToClear, inputTmp.id);
+}
