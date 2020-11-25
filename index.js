@@ -13,6 +13,8 @@ let imagePreviewRegion = document.getElementById("image-preview");
 
 let indexImage = 0;
 
+let indexInput = 0;
+
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
   e.preventDefault();
@@ -112,6 +114,13 @@ function previewAndUploadImage(image) {
   imgView.className = "image-view";
   imagePreviewRegion.appendChild(imgView);
 
+  //create de input file
+  let newInput = document.createElement("input");
+  newInput.className = "fake-input";
+  newInput.id = "fake-input-" + indexInput;
+  newInput.style = "display:none;";
+  imgView.appendChild(newInput);
+
   //image and text container
   let imgText = document.createElement("div");
   imgText.className = "image-text-container";
@@ -131,14 +140,11 @@ function previewAndUploadImage(image) {
   //create the remove button
   let removeButton = document.createElement("button");
   removeButton.className = "xButton";
-  removeButton.setAttribute("id", indexImage + 1);
   imgView.appendChild(removeButton);
 
   //Delete the image
   removeButton.onclick = () => {
-    console.log(imgView);
     imagePreviewRegion.removeChild(imgView);
-    let indexToDelete = formData.get(image.name);
   };
 
   //svg
@@ -147,22 +153,19 @@ function previewAndUploadImage(image) {
   svg.src = "close.svg";
   removeButton.appendChild(svg);
 
-  if (indexImage === 0) {
-    console.log("antes 1", $("#input-fake-1").prop("files"));
-    $("#input-fake-1").prop("files", $("#images").prop("files"));
-    indexImage++;
-    console.log("creado 1", $("#input-fake-1").prop("files"));
-  } else if (indexImage === 1) {
-    console.log("antes 2", $("#input-fake-2").prop("files"));
-    $("#input-fake-2").prop("files", $("#images").prop("files"));
-    indexImage++;
-    console.log("creado 2", $("#input-fake-2").prop("files"));
-  } else if (indexImage === 2) {
-    console.log("antes 3", $("#input-fake-").prop("files"));
-    $("#input-fake-3").prop("files", $("#images").prop("files"));
-    indexImage++;
-    console.log("creado 3", $("#input-fake-3").prop("files"));
-  }
+  console.log(indexInput);
+  // console.log(document.getElementById("#" + newInput.id));
+  let element = document.getElementById("fake-input-" + indexInput);
+  console.log(document.getElementById("fake-input-" + indexInput));
+  // console.log("#" + newInput.id);
+
+  //agregar
+  console.log("antes", $("#images").prop("files"));
+  console.log(element.id);
+  $("#" + element.id).prop("files", $("#images").prop("files"));
+  console.log("despues", $("#" + element.id).prop("files"));
+
+  indexInput++;
 
   // read the image...
   let reader = new FileReader();
@@ -173,8 +176,6 @@ function previewAndUploadImage(image) {
 
   // formData.set(indexImage, image);
   formData.set(image.name, indexImage);
-  console.log(formData);
-  // console.log(formData);
   console.log("------------------------------------------------\n");
 }
 
@@ -189,13 +190,13 @@ function duplicateValueInput(idDuplicateInput, idInput) {
   console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
 }
 
-/**
- * Allows to clear the value of a input
- * @param {String} idToClear : id of the input file to clear
- * @return {Void}
- */
-function clearInput(idToClear) {
-  let inputTmp = document.getElementById("input-empty");
-  console.log("antes de borrado", $("#input-fake-1").prop("files"));
-  duplicateValueInput(idToClear, inputTmp.id);
-}
+// /**
+//  * Allows to clear the value of a input
+//  * @param {String} idToClear : id of the input file to clear
+//  * @return {Void}
+//  */
+// function clearInput(idToClear) {
+//   let inputTmp = document.getElementById("input-empty");
+//   console.log("antes de borrado", $("#input-fake-1").prop("files"));
+//   duplicateValueInput(idToClear, inputTmp.id);
+// }
