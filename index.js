@@ -10,6 +10,8 @@ let imagePreviewRegion = document.getElementById("image-preview");
 
 let indexInput = 1;
 
+let title = document.getElementById("title-files");
+
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
   e.preventDefault();
@@ -130,9 +132,9 @@ function previewAndUploadImage(image) {
 
   //Delete the image
   removeButton.onclick = () => {
-    imagePreviewRegion.removeChild(imgView);
+    $("#image-preview").empty();
+    title.style = "display:none";
     indexInput--;
-    rewriteId();
   };
 
   //icon x of the each image
@@ -152,6 +154,7 @@ function previewAndUploadImage(image) {
 
   //Add the images
   if (document.getElementsByClassName("image-view").length < 4) {
+    title.style = "display: block";
     duplicateValueInput(element.id, "images");
 
     let idInput = document.getElementsByClassName("image-view").length;
