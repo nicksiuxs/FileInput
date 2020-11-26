@@ -70,10 +70,11 @@
 
 #image-preview {
   margin-top: 0.625rem;
+  padding-top: 1.25rem;
   width: 26.875rem;
-  /* border: 1px solid; */
   display: flex;
   flex-direction: column;
+  background: #ededed;
 }
 
 #image-preview .image-view .foto-producto {
@@ -87,12 +88,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.25rem;
+  padding-right: 0.625rem;
   /* border: 1px solid; */
 }
 
 .image-text-container {
   display: flex;
   align-items: center;
+  padding-left: 0.625rem;
 }
 
 .image-text-container .foto-producto {

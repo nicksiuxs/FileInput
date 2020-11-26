@@ -89,6 +89,8 @@ function validateImage(image) {
   return true;
 }
 
+$("#image-preview").attr("style", "background:none");
+
 /**
  * Preview images in an area and upload to a input
  * @param {File} image : the image to preview and upload
@@ -134,6 +136,7 @@ function previewAndUploadImage(image) {
   removeButton.onclick = () => {
     $("#image-preview").empty();
     title.style = "display:none";
+    $("#image-preview").attr("style", "background:none");
     indexInput--;
   };
 
@@ -154,10 +157,14 @@ function previewAndUploadImage(image) {
 
   //Add the images
   if (document.getElementsByClassName("image-view").length < 4) {
+    $("#image-preview").attr("style", "background:#ededed");
     title.style = "display: block";
+    if (document.getElementsByClassName("image-view").length > 1) {
+      removeButton.style = "display:none";
+    }
     duplicateValueInput(element.id, "images");
 
-    let idInput = document.getElementsByClassName("image-view").length;
+    // let idInput = document.getElementsByClassName("image-view").length;
 
     indexInput++;
     rewriteId();
