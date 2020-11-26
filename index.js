@@ -4,26 +4,23 @@ fakeInput.type = "file";
 fakeInput.accept = "image/*";
 fakeInput.multiple = true;
 
-var formData = new Map();
-let previous_files;
-
 let dropRegion = document.getElementById("drop-region");
 
 let imagePreviewRegion = document.getElementById("image-preview");
 
-let indexImage = 0;
+let indexInput = 1;
+
+let title = document.getElementById("title-files");
 
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
   e.preventDefault();
-  //   previous_files = $("#images").prop("files");
   fakeInput.click();
 });
 
 /* Detect onclick */
 fakeInput.addEventListener("change", function () {
   let files = fakeInput.files;
-  // console.log("fakeInput.addEventListener -> files", files);
   handleFiles(files);
 });
 
@@ -46,20 +43,11 @@ function handleDrop(e) {
   let dt = e.dataTransfer,
     files = dt.files;
 
+  //gives values to the input images of the fake input
+  $("#images").prop("files", files);
+
   if (files.length) {
     handleFiles(files);
-  } else {
-    // check for img
-    var html = dt.getData("text/html"),
-      match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
-      url = match && match[1];
-    console.log("handleDrop -> url", url);
-    console.log("handleDrop -> match", match);
-    console.log("handleDrop -> html", html);
-    if (url) {
-      // uploadImageFromURL( url );
-      return;
-    }
   }
 }
 
@@ -94,15 +82,17 @@ function validateImage(image) {
   // check the size
   let maxSizeInBytes = 10e6; // 10MB
   if (image.size > maxSizeInBytes) {
-    alert("File too large");
+    alert("El archivo supera el límite de 10MB");
     return false;
   }
 
   return true;
 }
 
+$("#image-preview").attr("style", "background:none");
+
 /**
- * Preview images in an area and upload
+ * Preview images in an area and upload to a input
  * @param {File} image : the image to preview and upload
  * @return {Void}
  */
@@ -111,6 +101,15 @@ function previewAndUploadImage(image) {
   let imgView = document.createElement("div");
   imgView.className = "image-view";
   imagePreviewRegion.appendChild(imgView);
+
+  //create de input file
+  let newInput = document.createElement("input");
+  newInput.className = "fake-input";
+  newInput.id = "fake-input-" + indexInput;
+  newInput.type = "file";
+  newInput.multiple = true;
+  newInput.style = "display:none;";
+  imgView.appendChild(newInput);
 
   //image and text container
   let imgText = document.createElement("div");
@@ -131,38 +130,21 @@ function previewAndUploadImage(image) {
   //create the remove button
   let removeButton = document.createElement("button");
   removeButton.className = "xButton";
-  removeButton.setAttribute("id", indexImage + 1);
   imgView.appendChild(removeButton);
 
   //Delete the image
   removeButton.onclick = () => {
-    console.log(imgView);
-    imagePreviewRegion.removeChild(imgView);
-    let indexToDelete = formData.get(image.name);
+    $("#image-preview").empty();
+    title.style = "display:none";
+    $("#image-preview").attr("style", "background:none");
+    indexInput = 0;
   };
 
-  //svg
+  //icon x of the each image
   let svg = document.createElement("img");
   svg.className = "icon";
   svg.src = "close.svg";
   removeButton.appendChild(svg);
-
-  if (indexImage === 0) {
-    console.log("antes 1", $("#input-fake-1").prop("files"));
-    $("#input-fake-1").prop("files", $("#images").prop("files"));
-    indexImage++;
-    console.log("creado 1", $("#input-fake-1").prop("files"));
-  } else if (indexImage === 1) {
-    console.log("antes 2", $("#input-fake-2").prop("files"));
-    $("#input-fake-2").prop("files", $("#images").prop("files"));
-    indexImage++;
-    console.log("creado 2", $("#input-fake-2").prop("files"));
-  } else if (indexImage === 2) {
-    console.log("antes 3", $("#input-fake-").prop("files"));
-    $("#input-fake-3").prop("files", $("#images").prop("files"));
-    indexImage++;
-    console.log("creado 3", $("#input-fake-3").prop("files"));
-  }
 
   // read the image...
   let reader = new FileReader();
@@ -171,10 +153,27 @@ function previewAndUploadImage(image) {
   };
   reader.readAsDataURL(image);
 
-  // formData.set(indexImage, image);
-  formData.set(image.name, indexImage);
-  console.log(formData);
-  // console.log(formData);
+  let element = document.getElementById("fake-input-" + indexInput);
+
+  //Add the images
+  if (document.getElementsByClassName("image-view").length < 4) {
+    $("#image-preview").attr("style", "background:#ededed");
+    title.style = "display: block";
+    if (document.getElementsByClassName("image-view").length > 1) {
+      removeButton.style = "display:none";
+    }
+    duplicateValueInput(element.id, "images");
+
+    // let idInput = document.getElementsByClassName("image-view").length;
+
+    indexInput++;
+    rewriteId();
+    clearInput("images");
+  } else if (document.getElementsByClassName("image-view").length > 3) {
+    imagePreviewRegion.removeChild(imgView);
+    alert("No se pueden cargar más de 3 imágenes");
+  }
+
   console.log("------------------------------------------------\n");
 }
 
@@ -185,8 +184,10 @@ function previewAndUploadImage(image) {
  * @return {Void}
  */
 function duplicateValueInput(idDuplicateInput, idInput) {
+  // console.log("input id", $("#" + idInput).prop("files"));
   $("#" + idDuplicateInput).prop("files", $("#" + idInput).prop("files"));
-  console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
+  // console.log("Id duplicado", idDuplicateInput);
+  // console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
 }
 
 /**
@@ -196,6 +197,24 @@ function duplicateValueInput(idDuplicateInput, idInput) {
  */
 function clearInput(idToClear) {
   let inputTmp = document.getElementById("input-empty");
-  console.log("antes de borrado", $("#input-fake-1").prop("files"));
+  // console.log("antes de borrado", $("#" + idToClear).prop("files"));
   duplicateValueInput(idToClear, inputTmp.id);
+}
+
+/**
+ * Allows to rewrite and sort the id of the inputs
+ * @return {Void}
+ */
+function rewriteId() {
+  console.log("Entreee");
+  let count = 1;
+  $("#image-preview")
+    .children()
+    .each(function () {
+      $(this)
+        .children()
+        .first()
+        .attr("id", "fake-input-" + count);
+      count++;
+    });
 }
