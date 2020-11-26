@@ -160,7 +160,7 @@ function previewAndUploadImage(image) {
     let idInput = document.getElementsByClassName("image-view").length;
 
     indexInput++;
-
+    rewriteId();
     clearInput("images");
   } else if (document.getElementsByClassName("image-view").length > 3) {
     imagePreviewRegion.removeChild(imgView);
