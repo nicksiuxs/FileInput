@@ -137,7 +137,7 @@ function previewAndUploadImage(image) {
     $("#image-preview").empty();
     title.style = "display:none";
     $("#image-preview").attr("style", "background:none");
-    indexInput--;
+    indexInput = 0;
   };
 
   //icon x of the each image
