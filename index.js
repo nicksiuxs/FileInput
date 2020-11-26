@@ -8,7 +8,7 @@ let dropRegion = document.getElementById("drop-region");
 
 let imagePreviewRegion = document.getElementById("image-preview");
 
-let indexInput = 0;
+let indexInput = 1;
 
 /* Detect Onclick into region */
 $("#drop-region").click(function (e) {
@@ -80,7 +80,7 @@ function validateImage(image) {
   // check the size
   let maxSizeInBytes = 10e6; // 10MB
   if (image.size > maxSizeInBytes) {
-    alert("File too large");
+    alert("El archivo supera el límite de 10MB");
     return false;
   }
 
@@ -141,8 +141,6 @@ function previewAndUploadImage(image) {
   svg.src = "close.svg";
   removeButton.appendChild(svg);
 
-  let element = document.getElementById("fake-input-" + indexInput);
-
   // read the image...
   let reader = new FileReader();
   reader.onload = function (e) {
@@ -150,19 +148,17 @@ function previewAndUploadImage(image) {
   };
   reader.readAsDataURL(image);
 
+  let element = document.getElementById("fake-input-" + indexInput);
+
   //Add the images
-  if (document.getElementsByClassName("image-view").length <= 3) {
+  if (document.getElementsByClassName("image-view").length < 4) {
     duplicateValueInput(element.id, "images");
-    console.log("FINALLL", $("#" + fakeInput.id).prop("files"));
 
     let idInput = document.getElementsByClassName("image-view").length;
-    console.log("tamaño", idInput);
-    rewriteId();
-    // $("#fake-input-" + indexInput).attr("id", "fake-input-" + idInput);
+
     indexInput++;
 
     clearInput("images");
-    console.log(document.getElementsByClassName("image-view").length);
   } else if (document.getElementsByClassName("image-view").length > 3) {
     imagePreviewRegion.removeChild(imgView);
     alert("No se pueden cargar más de 3 imágenes");
@@ -180,7 +176,8 @@ function previewAndUploadImage(image) {
 function duplicateValueInput(idDuplicateInput, idInput) {
   // console.log("input id", $("#" + idInput).prop("files"));
   $("#" + idDuplicateInput).prop("files", $("#" + idInput).prop("files"));
-  console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
+  // console.log("Id duplicado", idDuplicateInput);
+  // console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
 }
 
 /**
@@ -209,6 +206,5 @@ function rewriteId() {
         .first()
         .attr("id", "fake-input-" + count);
       count++;
-      // console.log($(this));
     });
 }
