@@ -41,7 +41,7 @@ function handleDrop(e) {
   let dt = e.dataTransfer,
     files = dt.files;
 
-  //gives values to the input images
+  //gives values to the input images of the fake input
   $("#images").prop("files", files);
 
   if (files.length) {
@@ -71,7 +71,9 @@ function validateImage(image) {
   // check the type
   let validTypes = ["image/jpeg", "image/png", "image/gif"];
   if (validTypes.indexOf(image.type) === -1) {
-    alert("El archivo no es un tipo válido, recuerde que los tipos válidos son JPG o PNG ");
+    alert(
+      "El archivo no es un tipo válido, recuerde que los tipos válidos son JPG o PNG "
+    );
     return false;
   }
 
@@ -86,7 +88,7 @@ function validateImage(image) {
 }
 
 /**
- * Preview images in an area and upload
+ * Preview images in an area and upload to a input
  * @param {File} image : the image to preview and upload
  * @return {Void}
  */
@@ -133,7 +135,7 @@ function previewAndUploadImage(image) {
     rewriteId();
   };
 
-  //svg
+  //icon x of the each image
   let svg = document.createElement("img");
   svg.className = "icon";
   svg.src = "close.svg";
