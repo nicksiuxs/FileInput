@@ -71,9 +71,7 @@ function validateImage(image) {
   // check the type
   let validTypes = ["image/jpeg", "image/png", "image/gif"];
   if (validTypes.indexOf(image.type) === -1) {
-    alert(
-      "El archivo no es un tipo válido, recuerde que los tipos válidos son JPG o PNG "
-    );
+    alert("El archivo no es un tipo válido, recuerde que los tipos válidos son JPG o PNG ");
     return false;
   }
 
@@ -132,7 +130,7 @@ function previewAndUploadImage(image) {
   removeButton.onclick = () => {
     imagePreviewRegion.removeChild(imgView);
     indexInput--;
-    reewriteId();
+    rewriteId();
   };
 
   //svg
@@ -142,7 +140,6 @@ function previewAndUploadImage(image) {
   removeButton.appendChild(svg);
 
   let element = document.getElementById("fake-input-" + indexInput);
-  console.log(element);
 
   // read the image...
   let reader = new FileReader();
@@ -152,15 +149,13 @@ function previewAndUploadImage(image) {
   reader.readAsDataURL(image);
 
   //Add the images
-  console.log("Id antes: ", element.id);
-
   if (document.getElementsByClassName("image-view").length <= 3) {
     duplicateValueInput(element.id, "images");
     console.log("FINALLL", $("#" + fakeInput.id).prop("files"));
 
     let idInput = document.getElementsByClassName("image-view").length;
     console.log("tamaño", idInput);
-    reewriteId();
+    rewriteId();
     // $("#fake-input-" + indexInput).attr("id", "fake-input-" + idInput);
     indexInput++;
 
@@ -181,7 +176,7 @@ function previewAndUploadImage(image) {
  * @return {Void}
  */
 function duplicateValueInput(idDuplicateInput, idInput) {
-  console.log("input id", $("#" + idInput).prop("files"));
+  // console.log("input id", $("#" + idInput).prop("files"));
   $("#" + idDuplicateInput).prop("files", $("#" + idInput).prop("files"));
   console.log("Duplicado", $("#" + idDuplicateInput).prop("files"));
 }
@@ -193,11 +188,15 @@ function duplicateValueInput(idDuplicateInput, idInput) {
  */
 function clearInput(idToClear) {
   let inputTmp = document.getElementById("input-empty");
-  console.log("antes de borrado", $("#" + idToClear).prop("files"));
+  // console.log("antes de borrado", $("#" + idToClear).prop("files"));
   duplicateValueInput(idToClear, inputTmp.id);
 }
 
-function reewriteId() {
+/**
+ * Allows to rewrite and sort the id of the inputs
+ * @return {Void}
+ */
+function rewriteId() {
   console.log("Entreee");
   let count = 1;
   $("#image-preview")
